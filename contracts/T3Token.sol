@@ -3,6 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol"; // Make sure this import is at the top
 
 /**
  * @title T3Token
@@ -13,18 +14,19 @@ contract T3Token is ERC20, Ownable {
     uint256 private constant BASIS_POINTS = 10000;
     uint256 private constant TIER_MULTIPLIER = 10;
     uint256 private constant BASE_FEE_PERCENT = 1000 * BASIS_POINTS; // 1000% for first tier
-    uint256 private constant MIN_FEE = 1; // Minimum fee in token units
-    uint256 private constant MAX_FEE_PERCENT = 500; //5 * BASIS_POINTS; // Maximum 5% fee cap
-    
+    // NOTE: MIN_FEE = 1 means 1 wei. If intended as 1 token unit, consider changing to a state variable set in constructor.
+    uint256 private constant MIN_FEE = 1;
+    uint256 private constant MAX_FEE_PERCENT = 500; // 5% fee cap (500 basis points)
+
     // HalfLife constants
     uint256 public halfLifeDuration = 3600; // Default 1 hour in seconds
     uint256 public minHalfLifeDuration = 600; // Minimum 10 minutes
     uint256 public maxHalfLifeDuration = 86400; // Maximum 24 hours
     uint256 public inactivityResetPeriod = 30 days;
-    
+
     // Treasury address
     address public treasuryAddress;
-    
+
     // Data structures
     struct TransferMetadata {
         uint256 commitWindowEnd;
@@ -32,42 +34,42 @@ contract T3Token is ERC20, Ownable {
         address originator;
         uint256 transferCount;
         bytes32 reversalHash;
-        uint256 feeAmount;
+        uint256 feeAmount; // Fee paid *after* credits/bounds
         bool isReversed;
     }
-    
+
     struct RollingAverage {
         uint256 totalAmount;
         uint256 count;
         uint256 lastUpdated;
     }
-    
+
     struct WalletRiskProfile {
         uint256 reversalCount;
         uint256 lastReversal;
         uint256 creationTime;
         uint256 abnormalTxCount;
     }
-    
+
     struct IncentiveCredits {
         uint256 amount;
         uint256 lastUpdated;
     }
-    
+
     // Mappings
     mapping(address => TransferMetadata) public transferData;
     mapping(address => RollingAverage) public rollingAverages;
     mapping(address => mapping(address => uint256)) public transactionCountBetween;
     mapping(address => WalletRiskProfile) public walletRiskProfiles;
     mapping(address => IncentiveCredits) public incentiveCredits;
-    
+
     // Events
     event TransferWithFee(address indexed from, address indexed to, uint256 amount, uint256 fee);
     event TransferReversed(address indexed from, address indexed to, uint256 amount);
     event HalfLifeExpired(address indexed wallet, uint256 timestamp);
     event LoyaltyRefundProcessed(address indexed wallet, uint256 amount);
     event RiskFactorUpdated(address indexed wallet, uint256 newRiskFactor);
-    
+
     /**
      * @dev Constructor
      * @param initialOwner The address that will receive the initial token supply
@@ -76,92 +78,108 @@ contract T3Token is ERC20, Ownable {
     constructor(address initialOwner, address _treasuryAddress) ERC20("T3 Stablecoin", "T3") Ownable(initialOwner) {
         require(_treasuryAddress != address(0), "Treasury address cannot be zero");
         treasuryAddress = _treasuryAddress;
-        
+
         // Mint initial supply to owner
         _mint(initialOwner, 1000000 * 10**decimals());
-        
+
         // Initialize owner's wallet risk profile
+        // Note: Other profiles are initialized via updateWalletRiskProfile calls
         walletRiskProfiles[initialOwner].creationTime = block.timestamp;
     }
-    
+
     /**
      * @dev Override transfer function to include fee calculation and HalfLife mechanism
      * @param recipient The recipient address
-     * @param amount The amount to transfer
+     * @param amount The amount to transfer (in wei)
      * @return bool Success indicator
      */
     function transfer(address recipient, uint256 amount) public override returns (bool) {
         require(recipient != address(0), "Transfer to zero address");
         require(amount > 0, "Transfer amount must be greater than zero");
-        
+
+        address sender = _msgSender();
+
         // Check if sender is in HalfLife period and not the originator
-        if (transferData[_msgSender()].commitWindowEnd > block.timestamp && 
-            transferData[_msgSender()].originator != recipient) {
+        if (transferData[sender].commitWindowEnd > block.timestamp &&
+            transferData[sender].originator != recipient) {
             revert("Cannot transfer during HalfLife period except back to originator");
         }
-        
-        // Calculate fee using tiered logarithmic structure
-        uint256 feeAmount = calculateTieredFee(amount);
-        
+
+        // Calculate base fee using tiered logarithmic structure
+        uint256 feeBeforeAdjustments = calculateTieredFee(amount);
+
         // Apply risk adjustments
-        feeAmount = applyRiskAdjustments(feeAmount, _msgSender(), recipient);
-        
-        // Apply credits to reduce fee
-        feeAmount = applyCredits(_msgSender(), feeAmount);
-        
-        // Ensure fee doesn't exceed maximum percentage
+        uint256 feeAfterRisk = applyRiskAdjustments(feeBeforeAdjustments, sender, recipient);
+
+        // Apply credits to reduce fee - This returns the fee *remaining* after credits
+        uint256 feeAfterCredits = applyCredits(sender, feeAfterRisk);
+
+        // Apply final bounds (Max/Min) to the fee remaining after credits
+        uint256 finalFee = feeAfterCredits;
         uint256 maxFeeAmount = (amount * MAX_FEE_PERCENT) / BASIS_POINTS;
-        if (feeAmount > maxFeeAmount) {
-            feeAmount = maxFeeAmount;
+        if (finalFee > maxFeeAmount) {
+            finalFee = maxFeeAmount;
         }
-        
-        // Ensure fee meets minimum
-        if (feeAmount < MIN_FEE && amount > MIN_FEE) {
-            feeAmount = MIN_FEE;
+
+        // Check MIN_FEE constant interpretation (currently 1 wei)
+        uint256 minFeeCheck = MIN_FEE; // Use constant directly
+        // If MIN_FEE was intended as 1 token unit, use a state variable instead:
+        // uint256 minFeeCheck = minFeeAmount;
+        if (finalFee < minFeeCheck && amount > minFeeCheck) {
+             finalFee = minFeeCheck;
         }
-        
-        // Transfer tokens (amount minus fee)
-        uint256 netAmount = amount - feeAmount;
-        _transfer(_msgSender(), recipient, netAmount);
-        
-        // Process fee distribution if fee exists
-        if (feeAmount > 0) {
-            processFee(_msgSender(), recipient, amount, feeAmount);
+
+        // Ensure fee doesn't exceed amount (prevents underflow)
+        // It's possible credits reduce fee significantly, then min_fee brings it back up.
+        if (finalFee > amount) {
+            finalFee = amount; // Cap fee at the transfer amount itself
         }
-        
+
+        // Calculate net amount for transfer
+        uint256 netAmount = amount - finalFee;
+
+        // Perform the transfer
+        _transfer(sender, recipient, netAmount);
+
+        // Process fee distribution if a non-zero fee was ultimately paid
+        if (finalFee > 0) {
+            // Pass the final calculated fee to processFee
+            processFee(sender, recipient, amount, finalFee);
+        }
+
         // Update transaction count between sender and recipient
-        transactionCountBetween[_msgSender()][recipient]++;
-        
+        transactionCountBetween[sender][recipient]++;
+
         // Calculate adaptive HalfLife duration
-        uint256 adaptiveHalfLife = calculateAdaptiveHalfLife(_msgSender(), recipient, amount);
-        
-        // Set transfer metadata
+        uint256 adaptiveHalfLife = calculateAdaptiveHalfLife(sender, recipient, amount);
+
+        // Set transfer metadata for the recipient
         transferData[recipient] = TransferMetadata({
             commitWindowEnd: block.timestamp + adaptiveHalfLife,
             halfLifeDuration: adaptiveHalfLife,
-            originator: _msgSender(),
-            transferCount: transferData[recipient].transferCount + 1,
-            reversalHash: keccak256(abi.encodePacked(_msgSender(), recipient, amount)),
-            feeAmount: feeAmount,
+            originator: sender,
+            transferCount: transferData[recipient].transferCount + 1, // Note: Reads recipient's old count
+            reversalHash: keccak256(abi.encodePacked(sender, recipient, amount)),
+            feeAmount: finalFee, // Store the final fee paid
             isReversed: false
         });
-        
-        // Update rolling average for recipient
-        updateRollingAverage(recipient, amount);
-        
-        emit TransferWithFee(_msgSender(), recipient, netAmount, feeAmount);
+
+        // Update rolling average for recipient (should this be netAmount?)
+        updateRollingAverage(recipient, amount); // Currently uses gross amount
+
+        // Emit event with net amount transferred and final fee paid
+        emit TransferWithFee(sender, recipient, netAmount, finalFee);
         return true;
     }
-    
 
-/*
+
+    /**
      * @dev Calculate fee using tiered logarithmic structure.
      * NOTE: Changed from pure to view to access decimals().
      * @param amount The transaction amount (in wei)
      * @return The calculated fee (in wei)
-     * updated to use decimals() for token precision and pull from blockchain
-*/
-    function calculateTieredFee(uint256 amount) public view returns (uint256) { // Changed to 'view'
+     */
+    function calculateTieredFee(uint256 amount) public view returns (uint256) {
         if (amount == 0) return 0;
 
         uint256 _decimals = decimals(); // Get token decimals
@@ -179,8 +197,8 @@ contract T3Token is ERC20, Ownable {
             uint256 amountInTier;
             uint256 tierSize = tierCeiling - tierFloor;
 
-            // Prevent potential underflow if tierCeiling somehow became < tierFloor (shouldn't happen here)
             if (tierCeiling < tierFloor) break; // Safety check
+            if (tierSize == 0) break; // Avoid issues if multiplier is 1 or ceiling doesn't grow
 
             if (remainingAmount > tierSize) {
                 amountInTier = tierSize;
@@ -195,17 +213,16 @@ contract T3Token is ERC20, Ownable {
 
             tierFloor = tierCeiling;
              // Check for potential overflow before multiplying ceiling
-             // 10 * 10**18 fits easily, but after many tiers (e.g., 60+) it could overflow uint256
              uint256 nextTierCeiling = tierCeiling * TIER_MULTIPLIER;
-             if (nextTierCeiling / TIER_MULTIPLIER != tierCeiling) {
-                 // Overflow occurred, handle appropriately (e.g., break or apply last fee % to remainder)
-                 // Apply last known fee % to the rest? Or just stop? Let's apply and stop.
+             // Check overflow using safe multiplication pattern
+             if (TIER_MULTIPLIER != 0 && nextTierCeiling / TIER_MULTIPLIER != tierCeiling && tierCeiling > 0) {
+                 // Overflow occurred, apply last fee % to remainder and break
                  if (remainingAmount > 0) {
                     tierFee = (remainingAmount * currentFeePercent) / BASIS_POINTS;
                     totalFee += tierFee;
                     remainingAmount = 0;
                  }
-                 break; // Exit loop as we can't calculate next ceiling
+                 break;
              }
              tierCeiling = nextTierCeiling;
 
@@ -213,18 +230,13 @@ contract T3Token is ERC20, Ownable {
             currentFeePercent = currentFeePercent / TIER_MULTIPLIER;
 
             if (currentFeePercent == 0) {
-                 // If fee % is 0, apply 0 fee to the rest and finish.
-                 // This prevents infinite loops if remainingAmount > 0 but fee is 0.
-                 // Although the break condition below already handles this.
-                 remainingAmount = 0; // Ensure loop terminates
+                 // If fee % is 0, no more fees apply to remaining amount
                  break;
              }
         }
-        // Apply fee percentage 0 to any remaining amount? No, the loop handles it.
-
         return totalFee;
     }
-    
+
     /**
      * @dev Apply risk adjustments to the base fee
      * @param baseFee The base fee calculated from the tiered structure
@@ -235,14 +247,14 @@ contract T3Token is ERC20, Ownable {
     function applyRiskAdjustments(uint256 baseFee, address sender, address recipient) public view returns (uint256) {
         uint256 senderRiskFactor = calculateRiskFactor(sender);
         uint256 recipientRiskFactor = calculateRiskFactor(recipient);
-        
+
         // Use the higher risk factor
         uint256 riskFactor = senderRiskFactor > recipientRiskFactor ? senderRiskFactor : recipientRiskFactor;
-        
+
         // Apply risk factor (as a percentage)
         return (baseFee * riskFactor) / BASIS_POINTS;
     }
-    
+
     /**
      * @dev Calculate risk factor for a wallet
      * @param wallet The wallet address
@@ -250,79 +262,111 @@ contract T3Token is ERC20, Ownable {
      */
     function calculateRiskFactor(address wallet) public view returns (uint256) {
         WalletRiskProfile storage profile = walletRiskProfiles[wallet];
-        
+
         // Base risk factor starts at 100% (10000 basis points)
         uint256 riskFactor = BASIS_POINTS;
-        
+
         // New wallet penalty (less than 7 days old)
+        // Requires profile.creationTime to be set (e.g., via updateWalletRiskProfile)
         if (profile.creationTime > 0 && block.timestamp - profile.creationTime < 7 days) {
             riskFactor += 5000; // +50%
         }
-        
+
         // Recent reversal penalty
         if (profile.lastReversal > 0 && block.timestamp - profile.lastReversal < 30 days) {
             riskFactor += 10000; // +100%
         }
-        
+
         // Reversal count penalty
         riskFactor += profile.reversalCount * 1000; // +10% per reversal
-        
+
         // Abnormal transaction penalty
         riskFactor += profile.abnormalTxCount * 500; // +5% per abnormal transaction
-        
+
         return riskFactor;
     }
-    
+
     /**
      * @dev Apply available credits to reduce fee
      * @param wallet The wallet address
-     * @param fee The fee amount
-     * @return The reduced fee amount
+     * @param fee The fee amount calculated *after* risk adjustments
+     * @return The reduced fee amount (fee remaining after applying credits)
      */
-    function applyCredits(address wallet, uint256 fee) public returns (uint256) {
+    function applyCredits(address wallet, uint256 fee) public returns (uint256) { // Consider making internal
         IncentiveCredits storage credits = incentiveCredits[wallet];
-        
+        // *** UPDATED LOGGING ***
+        console.log("--- applyCredits Start ---");
+        console.log("Wallet: %s", wallet);
+        console.log("Input Fee: %s", fee);
+        console.log("Initial Credits: %s", credits.amount);
+
         if (credits.amount == 0) {
+            console.log("applyCredits: No credits, returning fee %s", fee);
+            console.log("--- applyCredits End ---");
             return fee;
         }
-        
+
         if (credits.amount >= fee) {
             // Full fee coverage
+            uint256 initialAmt = credits.amount; // Temp var for logging
             credits.amount -= fee;
             credits.lastUpdated = block.timestamp;
-            return 0;
+            console.log("applyCredits: Full coverage. Credits Before=%s, Fee Deducted=%s, Credits After=%s", initialAmt, fee, credits.amount);
+            console.log("--- applyCredits End ---");
+            return 0; // Return 0 fee remaining
         } else {
             // Partial fee coverage
+            uint256 initialAmt = credits.amount; // Temp var for logging
             uint256 remainingFee = fee - credits.amount;
-            credits.amount = 0;
+            credits.amount = 0; // Zero out credits
             credits.lastUpdated = block.timestamp;
-            return remainingFee;
+            console.log("applyCredits: Partial coverage. Credits Before=%s, Fee Deducted=%s, Credits After=%s, Remaining Fee=%s", initialAmt, initialAmt, credits.amount, remainingFee);
+            console.log("--- applyCredits End ---");
+            return remainingFee; // Return the fee that still needs to be paid
         }
     }
-    
+
     /**
      * @dev Process fee distribution between treasury and incentive pools
      * @param sender The sender address
      * @param recipient The recipient address
-     * @param amount The original transfer amount
-     * @param feeAmount The fee amount
+     * @param feeAmount The final fee amount actually paid (after credits, bounds)
      */
-    function processFee(address sender, address recipient, uint256 amount, uint256 feeAmount) internal {
+     // *** CORRECTED DOCSTRING (removed @param amount) ***
+    function processFee(address sender, address recipient, uint256 /*amount*/, uint256 feeAmount) internal {
+        // *** UPDATED LOGGING ***
+        console.log("--- processFee Start ---");
+        console.log("Sender: %s", sender);
+        console.log("Recipient: %s", recipient);
+        console.log("Fee Amount Paid: %s", feeAmount);
+
         // 50% to treasury
         uint256 treasuryShare = feeAmount / 2;
-        _mint(treasuryAddress, treasuryShare);
-        
+        if (treasuryShare > 0) {
+             _mint(treasuryAddress, treasuryShare);
+        }
+        console.log("Treasury Share: %s", treasuryShare);
+
         // 25% to sender's incentive pool
         uint256 senderShare = feeAmount / 4;
+        uint256 senderCreditsBefore = incentiveCredits[sender].amount;
         incentiveCredits[sender].amount += senderShare;
         incentiveCredits[sender].lastUpdated = block.timestamp;
-        
-        // 25% to recipient's incentive pool
-        uint256 recipientShare = feeAmount / 4; //- treasuryShare - senderShare; // Account for rounding
+        console.log("Sender Share: %s", senderShare);
+        console.log("Sender Credits Before: %s", senderCreditsBefore);
+        console.log("Sender Credits After: %s", incentiveCredits[sender].amount);
+
+        // 25% (remainder) to recipient's incentive pool
+        uint256 recipientShare = feeAmount - treasuryShare - senderShare; // Corrected logic
+        uint256 recipientCreditsBefore = incentiveCredits[recipient].amount;
         incentiveCredits[recipient].amount += recipientShare;
         incentiveCredits[recipient].lastUpdated = block.timestamp;
+        console.log("Recipient Share: %s", recipientShare);
+        console.log("Recipient Credits Before: %s", recipientCreditsBefore);
+        console.log("Recipient Credits After: %s", incentiveCredits[recipient].amount);
+        console.log("--- processFee End ---");
     }
-    
+
     /**
      * @dev Calculate adaptive HalfLife duration based on transaction patterns
      * @param sender The sender address
@@ -332,156 +376,115 @@ contract T3Token is ERC20, Ownable {
      */
     function calculateAdaptiveHalfLife(address sender, address recipient, uint256 amount) internal view returns (uint256) {
         uint256 duration = halfLifeDuration;
-        
-        // Reduce HalfLife for frequent transactions between the same parties
         uint256 txCount = transactionCountBetween[sender][recipient];
         if (txCount > 0) {
-            // Reduce by 10% for each previous transaction, up to 90% reduction
             uint256 reduction = (txCount * 10 > 90) ? 90 : txCount * 10;
             duration = duration * (100 - reduction) / 100;
         }
-        
-        // Increase HalfLife for abnormally large transactions
         RollingAverage storage avg = rollingAverages[sender];
         if (avg.count > 0) {
-            uint256 avgAmount = avg.totalAmount / avg.count;
-            if (amount > avgAmount * 10) {
-                // Double the HalfLife for transactions 10x larger than average
-                duration = duration * 2;
-            }
+             if (avg.totalAmount > 0) {
+                uint256 avgAmount = avg.totalAmount / avg.count;
+                if (amount > avgAmount * 10) {
+                    duration = duration * 2;
+                }
+             }
         }
-        
-        // Ensure within min/max bounds
-        if (duration < minHalfLifeDuration) {
-            duration = minHalfLifeDuration;
-        } else if (duration > maxHalfLifeDuration) {
-            duration = maxHalfLifeDuration;
-        }
-        
+        if (duration < minHalfLifeDuration) { duration = minHalfLifeDuration; }
+        else if (duration > maxHalfLifeDuration) { duration = maxHalfLifeDuration; }
         return duration;
     }
-    
+
     /**
-     * @dev Update rolling average for a wallet
+     * @dev Update rolling average for a wallet (likely the recipient)
      * @param wallet The wallet address
-     * @param amount The transaction amount
+     * @param amount The transaction amount received
      */
     function updateRollingAverage(address wallet, uint256 amount) internal {
         RollingAverage storage avg = rollingAverages[wallet];
-        
-        // Reset if inactive for too long
         if (avg.lastUpdated > 0 && block.timestamp - avg.lastUpdated > inactivityResetPeriod) {
-            avg.totalAmount = 0;
-            avg.count = 0;
+            avg.totalAmount = 0; avg.count = 0;
         }
-        
-        // Update the average
-        avg.totalAmount += amount;
-        avg.count++;
-        avg.lastUpdated = block.timestamp;
+        avg.totalAmount += amount; avg.count++; avg.lastUpdated = block.timestamp;
     }
-    
+
     /**
      * @dev Reverse a transfer within the HalfLife period
-     * @param from The current holder address
-     * @param to The original sender address
-     * @param amount The amount to reverse
+     * @param from The current holder address (who wants to reverse)
+     * @param to The original sender address (where tokens go back to)
+     * @param amount The net amount that was originally received
      */
     function reverseTransfer(address from, address to, uint256 amount) external {
-        TransferMetadata memory meta = transferData[from];
-        
-        require(msg.sender == from || msg.sender == to, "Only sender or receiver can reverse");
+        require(msg.sender == from , "Only receiver can initiate reversal");
+        TransferMetadata storage meta = transferData[from];
         require(block.timestamp < meta.commitWindowEnd, "HalfLife expired");
         require(to == meta.originator, "Reversal must go back to originator");
         require(balanceOf(from) >= amount, "Insufficient balance to reverse");
-        
-        // Mark the transfer as reversed
-        transferData[from].isReversed = true;
-        
-        // Update wallet risk profiles
+        require(!meta.isReversed, "Transfer already reversed");
+        meta.isReversed = true;
         updateWalletRiskProfile(from, true, false);
         updateWalletRiskProfile(to, true, false);
-        
-        // Transfer tokens back
         _transfer(from, to, amount);
-        
-        // Prevent reversal of reversal
         delete transferData[from];
-        
         emit TransferReversed(from, to, amount);
     }
-    
+
     /**
      * @dev Check if HalfLife period has expired and process loyalty refunds
-     * @param wallet The wallet address to check
+     * @param wallet The wallet address holding the tokens (original recipient)
      */
     function checkHalfLifeExpiry(address wallet) external {
         TransferMetadata storage meta = transferData[wallet];
-        
         require(meta.commitWindowEnd > 0, "No active transfer data");
         require(block.timestamp >= meta.commitWindowEnd, "HalfLife not expired yet");
         require(!meta.isReversed, "Transfer was reversed");
-        
-        // Process loyalty refunds if not already processed
-        if (meta.feeAmount > 0) {
-            // 25% refund to both parties
-            uint256 senderRefund = meta.feeAmount / 8; // 25% of sender's 50% share
-            uint256 recipientRefund = meta.feeAmount / 8; // 25% of recipient's 50% share
-            
-            // Credit the refunds
-            incentiveCredits[meta.originator].amount += senderRefund;
-            incentiveCredits[meta.originator].lastUpdated = block.timestamp;
-            
-            incentiveCredits[wallet].amount += recipientRefund;
-            incentiveCredits[wallet].lastUpdated = block.timestamp;
-            
-            emit LoyaltyRefundProcessed(meta.originator, senderRefund);
-            emit LoyaltyRefundProcessed(wallet, recipientRefund);
+        uint256 feePaid = meta.feeAmount;
+        if (feePaid > 0) {
+            uint256 refundAmount = feePaid / 8;
+            if (refundAmount > 0) {
+                incentiveCredits[meta.originator].amount += refundAmount;
+                incentiveCredits[meta.originator].lastUpdated = block.timestamp;
+                incentiveCredits[wallet].amount += refundAmount;
+                incentiveCredits[wallet].lastUpdated = block.timestamp;
+                emit LoyaltyRefundProcessed(meta.originator, refundAmount);
+                emit LoyaltyRefundProcessed(wallet, refundAmount);
+            }
         }
-        
-        // Update wallet risk profiles positively
         updateWalletRiskProfile(wallet, false, true);
         updateWalletRiskProfile(meta.originator, false, true);
-        
-        // Clear the metadata
         delete transferData[wallet];
-        
         emit HalfLifeExpired(wallet, block.timestamp);
     }
-    
+
     /**
-     * @dev Update wallet risk profile
+     * @dev Update wallet risk profile. Initializes creationTime if needed.
      * @param wallet The wallet address
-     * @param isReversal Whether this is a reversal event
-     * @param isSuccessful Whether this is a successful transaction
+     * @param isReversal Whether this update is due to a reversal event
+     * @param isSuccessfulCompletion Whether this update is due to successful HalfLife expiry
      */
-    function updateWalletRiskProfile(address wallet, bool isReversal, bool isSuccessful) internal {
+    function updateWalletRiskProfile(address wallet, bool isReversal, bool /*isSuccessfulCompletion*/) internal { // Marked param unused
         WalletRiskProfile storage profile = walletRiskProfiles[wallet];
-        
-        // Initialize creation time if not set
         if (profile.creationTime == 0) {
             profile.creationTime = block.timestamp;
+             console.log("Initialized profile creationTime for: %s", wallet); // Use format specifier
         }
-        
         if (isReversal) {
             profile.reversalCount++;
             profile.lastReversal = block.timestamp;
         }
-        
-        // Successful transactions don't need special handling currently
-        
         emit RiskFactorUpdated(wallet, calculateRiskFactor(wallet));
     }
-    
+
     /**
-     * @dev Flag a transaction as abnormal
-     * @param wallet The wallet address
+     * @dev Flag a transaction as abnormal (callable by owner)
+     * @param wallet The wallet address associated with the abnormal transaction
      */
     function flagAbnormalTransaction(address wallet) external onlyOwner {
+        updateWalletRiskProfile(wallet, false, false); // Ensure profile exists
         walletRiskProfiles[wallet].abnormalTxCount++;
-        emit RiskFactorUpdated(wallet, calculateRiskFactor(wallet));
+        // Event emitted within updateWalletRiskProfile
     }
-    
+
     /**
      * @dev Get available credits for a wallet
      * @param wallet The wallet address
@@ -490,18 +493,18 @@ contract T3Token is ERC20, Ownable {
     function getAvailableCredits(address wallet) external view returns (uint256) {
         return incentiveCredits[wallet].amount;
     }
-    
+
     /**
-     * @dev Set the treasury address
+     * @dev Set the treasury address (callable by owner)
      * @param _treasuryAddress The new treasury address
      */
     function setTreasuryAddress(address _treasuryAddress) external onlyOwner {
         require(_treasuryAddress != address(0), "Treasury address cannot be zero");
         treasuryAddress = _treasuryAddress;
     }
-    
+
     /**
-     * @dev Set the default HalfLife duration
+     * @dev Set the default HalfLife duration (callable by owner)
      * @param _halfLifeDuration The new HalfLife duration in seconds
      */
     function setHalfLifeDuration(uint256 _halfLifeDuration) external onlyOwner {
@@ -509,9 +512,9 @@ contract T3Token is ERC20, Ownable {
         require(_halfLifeDuration <= maxHalfLifeDuration, "Above maximum HalfLife duration");
         halfLifeDuration = _halfLifeDuration;
     }
-    
+
     /**
-     * @dev Set the minimum HalfLife duration
+     * @dev Set the minimum HalfLife duration (callable by owner)
      * @param _minHalfLifeDuration The new minimum HalfLife duration in seconds
      */
     function setMinHalfLifeDuration(uint256 _minHalfLifeDuration) external onlyOwner {
@@ -519,18 +522,18 @@ contract T3Token is ERC20, Ownable {
         require(_minHalfLifeDuration <= halfLifeDuration, "Minimum cannot exceed default");
         minHalfLifeDuration = _minHalfLifeDuration;
     }
-    
+
     /**
-     * @dev Set the maximum HalfLife duration
+     * @dev Set the maximum HalfLife duration (callable by owner)
      * @param _maxHalfLifeDuration The new maximum HalfLife duration in seconds
      */
     function setMaxHalfLifeDuration(uint256 _maxHalfLifeDuration) external onlyOwner {
         require(_maxHalfLifeDuration >= halfLifeDuration, "Maximum cannot be below default");
         maxHalfLifeDuration = _maxHalfLifeDuration;
     }
-    
+
     /**
-     * @dev Set the inactivity reset period
+     * @dev Set the inactivity reset period (callable by owner)
      * @param _inactivityResetPeriod The new inactivity reset period in seconds
      */
     function setInactivityResetPeriod(uint256 _inactivityResetPeriod) external onlyOwner {
@@ -538,3 +541,10 @@ contract T3Token is ERC20, Ownable {
         inactivityResetPeriod = _inactivityResetPeriod;
     }
 }
+/*
+I have updated the code in the Canvas:
+* Removed the `@param amount` line from the `processFee` docstring.
+* Rewrote the `console.log` calls in `applyCredits` and `processFee` to use simpler arguments or format specifiers (`%s`) which are generally better supported by Hardhat's console.
+
+Please replace the code in your `T3Token.sol` file with the updated version from the Canvas, then run `npx hardhat clean`, `npx hardhat compile`, and execute the tests again (`npx hardhat test --grep "Credit Application"`). Let me know the log outp
+*/
