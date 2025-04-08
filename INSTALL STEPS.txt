@@ -1,0 +1,44 @@
+Steps to run local contract:
+
+// ASSUMES THAT PYTHON IS INSTALLED
+// OPEN POWERSHELL AND GO TO CONTRACT DIRECTORY
+----------------------------
+cd "C:\Users\jesse\onedrive\t3 project\t3-base\t3-contract"
+
+----------------------------
+// step one - double check everything is installed
+----------------------------
+npm install
+
+----------------------------
+// step two - resolve package dependencies
+// !! needs to be addressed !!
+----------------------------
+npm install --save-dev "@nomicfoundation/hardhat-verify@^1.0.0" "@types/mocha@>=9.1.0" "@typechain/ethers-v6@^0.4.0" "@typechain/hardhat@^8.0.0" "hardhat-gas-reporter@^1.0.8" "ts-node@>=8.0.0" "typechain@^8.2.0" "typescript@>=4.5.0" --legacy-peer-deps
+
+----------------------------
+// step three - install test suite with legacy dependencies
+----------------------------
+npm install --save-dev chai@latest @nomicfoundation/hardhat-chai-matchers@latest @nomicfoundation/hardhat-network-helpers@latest --legacy-peer-deps
+//start the local testnet
+
+----------------------------
+// step four - start local node
+----------------------------
+npx hardhat node
+
+----------------------------
+// step five - IN NEW TAB!!!! - browse to contract directory
+----------------------------
+cd "C:\Users\jesse\onedrive\t3 project\t3-base\t3-contract"
+
+
+----------------------------
+// step six - deploy contract - this will automatically update the .env with the new contract address
+// uses the first 3 default wallets (0-2) for test transactions and wallet 3 as the treasury wallet
+----------------------------
+npx hardhat run scripts/deploy_fees.js --network localhost
+
+----------------------------
+// step seven - run test suite
+npx hardhat test ./tests/T3Token.test.js

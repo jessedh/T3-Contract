@@ -6,14 +6,26 @@
     "deploy": "hardhat run scripts/deploy.js --network sepolia"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@nomicfoundation/hardhat-verify": "^1.1.1",
+    "@typechain/ethers-v6": "^0.4.3",
+    "@typechain/hardhat": "^8.0.3",
+    "@types/mocha": "^10.0.10",
+    "chai": "^5.2.0",
     "dotenv": "^16.3.1",
     "ethers": "^6.13.5",
     "hardhat": "^2.22.19",
-    "solidity-coverage": "^0.8.14"
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-coverage": "^0.8.14",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.2",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.2.0"
+    "@openzeppelin/contracts": "^5.2.0",
+    "mocha": "^11.1.0"
   }
 }
