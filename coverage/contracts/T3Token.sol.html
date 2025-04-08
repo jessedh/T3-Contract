@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts\T3Token.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> T3Token.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/28</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+&nbsp;
+contract T3Token is ERC20, Ownable {
+    struct TransferMetadata {
+        uint256 commitWindowEnd;
+        uint256 halfLifeDuration;
+        address originator;
+        uint256 transferCount;
+        bytes32 reversalHash;
+    }
+&nbsp;
+    mapping(address =&gt; TransferMetadata) public transferData;
+&nbsp;
+    uint256 public halfLifeDuration = 3600;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor(address initialOwner) ERC20("T3 Stablecoin", "T3") Ownable(initialOwner) {</span>
+<span class="cstat-no" title="statement not covered" >        _mint(initialOwner, 1000000 * 10 ** decimals())</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function transfer(address recipient, uint256 amount) public override returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >        _transfer(_msgSender(), recipient, amount)</span>;
+        transferData[recipient] = TransferMetadata({
+            commitWindowEnd: block.timestamp + halfLifeDuration,
+            halfLifeDuration: halfLifeDuration,
+            originator: _msgSender(),
+            transferCount: transferData[recipient].transferCount + 1,
+            reversalHash: keccak256(abi.encodePacked(_msgSender(), recipient, amount))
+        });
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function reverseTransfer(address from, address to, uint256 amount) external {</span>
+<span class="cstat-no" title="statement not covered" >        TransferMetadata memory meta = transferData[from];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(msg.sender == from || msg.sender == to, "Only sender or receiver can reverse")</span>;
+<span class="cstat-no" title="statement not covered" >        require(block.timestamp &lt; meta.commitWindowEnd, "HalfLife expired")</span>;
+<span class="cstat-no" title="statement not covered" >        require(to == meta.originator, "Reversal must go back to originator")</span>;
+<span class="cstat-no" title="statement not covered" >        require(balanceOf(from) &gt;= amount, "Insufficient balance to reverse")</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _transfer(from, to, amount)</span>;
+&nbsp;
+        // Prevent reversal of reversal (no metadata created)
+        delete transferData[from];
+    }
+&nbsp;
+    struct RollingAverage {
+        uint256 totalAmount;
+        uint256 count;
+        uint256 lastUpdated;
+    }
+&nbsp;
+    mapping(address =&gt; mapping(address =&gt; uint256)) public transactionCountBetween;
+    mapping(address =&gt; mapping(address =&gt; RollingAverage)) public rollingAvg;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function transferWithHalfLife(address to, uint256 amount, uint256 requestedHalfLife) public returns (bool) {</span>
+        // Calculate decay-based minimum
+<span class="cstat-no" title="statement not covered" >        uint256 txCount = transactionCountBetween[msg.sender][to];</span>
+<span class="cstat-no" title="statement not covered" >        uint256 decayMin = 43200 &gt;&gt; txCount;</span>
+&nbsp;
+        // Load rolling average
+<span class="cstat-no" title="statement not covered" >        RollingAverage storage avg = rollingAvg[msg.sender][to];</span>
+<span class="cstat-no" title="statement not covered" >        uint256 average = avg.count &gt; 0 ? avg.totalAmount / avg.count : 0;</span>
+&nbsp;
+        // Reset if 30 days passed
+<span class="cstat-no" title="statement not covered" >        if (block.timestamp &gt; avg.lastUpdated + 30 days) {</span>
+            avg.totalAmount = 0;
+            avg.count = 0;
+        }
+&nbsp;
+        // Update rolling average
+        avg.totalAmount += amount;
+        avg.count += 1;
+        avg.lastUpdated = block.timestamp;
+&nbsp;
+        // Check for high-value transaction boost
+<span class="cstat-no" title="statement not covered" >        uint256 highValueMin = (average &gt; 0 &amp;&amp; amount &gt; (average * 150) / 100) ? 3600 : 0;</span>
+&nbsp;
+        // Determine applied HalfLife
+<span class="cstat-no" title="statement not covered" >        uint256 finalMin = decayMin &gt; highValueMin ? decayMin : highValueMin;</span>
+<span class="cstat-no" title="statement not covered" >        uint256 appliedHalfLife = requestedHalfLife &gt; finalMin ? requestedHalfLife : finalMin;</span>
+&nbsp;
+        // Execute transfer
+<span class="cstat-no" title="statement not covered" >        _transfer(msg.sender, to, amount)</span>;
+&nbsp;
+        // Set transfer metadata
+        transferData[to] = TransferMetadata({
+            commitWindowEnd: block.timestamp + appliedHalfLife,
+            halfLifeDuration: appliedHalfLife,
+            originator: msg.sender,
+            transferCount: transferData[to].transferCount + 1,
+            reversalHash: keccak256(abi.encodePacked(msg.sender, to, amount, block.timestamp))
+        });
+&nbsp;
+        transactionCountBetween[msg.sender][to]++;
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    }
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 06 2025 15:54:52 GMT-0400 (Eastern Daylight Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
