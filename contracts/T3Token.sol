@@ -14,7 +14,7 @@ contract T3Token is ERC20, Ownable {
     uint256 private constant TIER_MULTIPLIER = 10;
     uint256 private constant BASE_FEE_PERCENT = 1000 * BASIS_POINTS; // 1000% for first tier
     uint256 private constant MIN_FEE = 1; // Minimum fee in token units
-    uint256 private constant MAX_FEE_PERCENT = 5 * BASIS_POINTS; // Maximum 5% fee cap
+    uint256 private constant MAX_FEE_PERCENT = 500; //5 * BASIS_POINTS; // Maximum 5% fee cap
     
     // HalfLife constants
     uint256 public halfLifeDuration = 3600; // Default 1 hour in seconds
@@ -153,45 +153,75 @@ contract T3Token is ERC20, Ownable {
         return true;
     }
     
-    /**
-     * @dev Calculate fee using tiered logarithmic structure
-     * @param amount The transaction amount
-     * @return The calculated fee
-     */
-    function calculateTieredFee(uint256 amount) public pure returns (uint256) {
+
+/*
+     * @dev Calculate fee using tiered logarithmic structure.
+     * NOTE: Changed from pure to view to access decimals().
+     * @param amount The transaction amount (in wei)
+     * @return The calculated fee (in wei)
+     * updated to use decimals() for token precision and pull from blockchain
+*/
+    function calculateTieredFee(uint256 amount) public view returns (uint256) { // Changed to 'view'
         if (amount == 0) return 0;
-        
+
+        uint256 _decimals = decimals(); // Get token decimals
+
         uint256 remainingAmount = amount;
         uint256 totalFee = 0;
-        uint256 tierCeiling = 1;
+
+        // Initialize tier ceiling based on 1 full token unit
+        uint256 tierCeiling = 1 * (10**_decimals); // e.g., 1 * 10**18
+
         uint256 tierFloor = 0;
-        uint256 currentFeePercent = BASE_FEE_PERCENT;
-        
-        // Process each tier until we've covered the full amount
+        uint256 currentFeePercent = BASE_FEE_PERCENT; // 10,000,000 BP (1000%)
+
         while (remainingAmount > 0) {
             uint256 amountInTier;
-            
-            if (remainingAmount > (tierCeiling - tierFloor)) {
-                amountInTier = tierCeiling - tierFloor;
+            uint256 tierSize = tierCeiling - tierFloor;
+
+            // Prevent potential underflow if tierCeiling somehow became < tierFloor (shouldn't happen here)
+            if (tierCeiling < tierFloor) break; // Safety check
+
+            if (remainingAmount > tierSize) {
+                amountInTier = tierSize;
                 remainingAmount -= amountInTier;
             } else {
                 amountInTier = remainingAmount;
                 remainingAmount = 0;
             }
-            
-            // Calculate fee for this tier
+
             uint256 tierFee = (amountInTier * currentFeePercent) / BASIS_POINTS;
             totalFee += tierFee;
-            
-            // Move to next tier
+
             tierFloor = tierCeiling;
-            tierCeiling = tierCeiling * TIER_MULTIPLIER;
+             // Check for potential overflow before multiplying ceiling
+             // 10 * 10**18 fits easily, but after many tiers (e.g., 60+) it could overflow uint256
+             uint256 nextTierCeiling = tierCeiling * TIER_MULTIPLIER;
+             if (nextTierCeiling / TIER_MULTIPLIER != tierCeiling) {
+                 // Overflow occurred, handle appropriately (e.g., break or apply last fee % to remainder)
+                 // Apply last known fee % to the rest? Or just stop? Let's apply and stop.
+                 if (remainingAmount > 0) {
+                    tierFee = (remainingAmount * currentFeePercent) / BASIS_POINTS;
+                    totalFee += tierFee;
+                    remainingAmount = 0;
+                 }
+                 break; // Exit loop as we can't calculate next ceiling
+             }
+             tierCeiling = nextTierCeiling;
+
+            // Decrease fee percentage for the next tier
             currentFeePercent = currentFeePercent / TIER_MULTIPLIER;
-            
-            // If fee percentage becomes too small, stop calculating
-            if (currentFeePercent == 0) break;
+
+            if (currentFeePercent == 0) {
+                 // If fee % is 0, apply 0 fee to the rest and finish.
+                 // This prevents infinite loops if remainingAmount > 0 but fee is 0.
+                 // Although the break condition below already handles this.
+                 remainingAmount = 0; // Ensure loop terminates
+                 break;
+             }
         }
-        
+        // Apply fee percentage 0 to any remaining amount? No, the loop handles it.
+
         return totalFee;
     }
     
@@ -288,7 +318,7 @@ contract T3Token is ERC20, Ownable {
         incentiveCredits[sender].lastUpdated = block.timestamp;
         
         // 25% to recipient's incentive pool
-        uint256 recipientShare = feeAmount - treasuryShare - senderShare; // Account for rounding
+        uint256 recipientShare = feeAmount / 4; //- treasuryShare - senderShare; // Account for rounding
         incentiveCredits[recipient].amount += recipientShare;
         incentiveCredits[recipient].lastUpdated = block.timestamp;
     }

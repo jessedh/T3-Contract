@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts\T3TokenTieredFeeTest.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> T3TokenTieredFeeTest.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/7</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+&nbsp;
+/**
+ * @title T3TokenTest
+ * @dev Test contract for T3Token with tiered logarithmic fee structure
+ */
+contract T3TokenTest {
+    // Test scenarios for the tiered logarithmic fee structure
+    
+    /**
+     * @dev Test the tiered fee calculation for various transaction amounts
+     */
+<span class="fstat-no" title="function not covered" >    function testTieredFeeCalculation() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. $0.01 transaction has a fee of $0.10 (1000%)
+        // 2. $0.10 transaction has a fee of $0.19 (190%)
+        // 3. $1.00 transaction has a fee of $0.28 (28%)
+        // 4. $10.00 transaction has a fee of $0.37 (3.7%)
+        // 5. $100.00 transaction has a fee of $0.46 (0.46%)
+        // 6. $1,000.00 transaction has a fee of $0.55 (0.055%)
+        // 7. $10,000.00 transaction has a fee of $0.64 (0.0064%)
+        // 8. $100,000.00 transaction has a fee of $0.73 (0.00073%)
+        
+        // Implementation would call the contract's calculateTieredFee function
+        // and compare results with expected values
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test risk factor adjustments to the base fee
+     */
+<span class="fstat-no" title="function not covered" >    function testRiskAdjustments() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. New wallet (&lt; 7 days) has a 50% higher fee
+        // 2. Wallet with recent reversal has a 100% higher fee
+        // 3. Each historical reversal adds 10% to the fee
+        // 4. Each abnormal transaction adds 5% to the fee
+        // 5. Combined risk factors are applied correctly
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test credit application to reduce fees
+     */
+<span class="fstat-no" title="function not covered" >    function testCreditApplication() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. Credits fully cover a fee when sufficient
+        // 2. Credits partially reduce a fee when insufficient
+        // 3. Credits are properly deducted from the wallet's balance
+        // 4. Credits are properly tracked and updated
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test fee distribution between treasury and incentive pools
+     */
+<span class="fstat-no" title="function not covered" >    function testFeeDistribution() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. 50% of fee goes to treasury
+        // 2. 25% of fee goes to sender's incentive pool
+        // 3. 25% of fee goes to recipient's incentive pool
+        // 4. Rounding errors are handled properly
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test loyalty refund processing
+     */
+<span class="fstat-no" title="function not covered" >    function testLoyaltyRefunds() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. 25% of sender's fee share is refunded after HalfLife
+        // 2. 25% of recipient's fee share is refunded after HalfLife
+        // 3. Refunds are properly credited to incentive pools
+        // 4. No refunds are processed for reversed transactions
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test minimum and maximum fee constraints
+     */
+<span class="fstat-no" title="function not covered" >    function testFeeBounds() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. Minimum fee of 1 token unit is applied when calculated fee is lower
+        // 2. Maximum fee of 5% is applied when calculated fee would exceed it
+        // 3. Very small transactions handle fee calculation properly
+        // 4. Very large transactions handle fee calculation properly
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+    
+    /**
+     * @dev Test end-to-end transaction flow with fee calculation
+     */
+<span class="fstat-no" title="function not covered" >    function testEndToEndTransaction() public pure returns (bool) {</span>
+        // Test cases should verify:
+        // 1. Complete transaction flow with fee calculation
+        // 2. Sender receives correct amount minus fee
+        // 3. Fee is distributed correctly
+        // 4. HalfLife mechanism works with the fee structure
+        // 5. Reversal process works with the fee structure
+        
+<span class="cstat-no" title="statement not covered" >        return true;</span> // Return test result
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 08 2025 10:37:21 GMT-0400 (Eastern Daylight Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

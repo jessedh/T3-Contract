@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">76.92% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>0/19</span>
+        <span class='fraction'>80/104</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">37.76% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/20</span>
+        <span class='fraction'>37/98</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">63.16% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/4</span>
+        <span class='fraction'>12/19</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">0% </span>
+        <span class="strong">70.19% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>0/28</span>
+        <span class='fraction'>113/161</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -144,7 +144,446 @@
 99
 100
 101
-102</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,6 +596,404 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-yes">263×</span>
+<span class="cline-any cline-yes">263×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">326×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,6 +1003,64 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -176,27 +1071,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -208,8 +1085,9 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -218,21 +1096,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -251,108 +1129,547 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 &nbsp;
+/**
+ * @title T3Token
+ * @dev ERC20 token with HalfLife mechanism, transfer reversal capabilities, and tiered logarithmic fee structure
+ */
 contract T3Token is ERC20, Ownable {
+    // Fee structure constants
+    uint256 private constant BASIS_POINTS = 10000;
+    uint256 private constant TIER_MULTIPLIER = 10;
+    uint256 private constant BASE_FEE_PERCENT = 1000 * BASIS_POINTS; // 1000% for first tier
+    uint256 private constant MIN_FEE = 1; // Minimum fee in token units
+    uint256 private constant MAX_FEE_PERCENT = 500; //5 * BASIS_POINTS; // Maximum 5% fee cap
+    
+    // HalfLife constants
+    uint256 public halfLifeDuration = 3600; // Default 1 hour in seconds
+    uint256 public minHalfLifeDuration = 600; // Minimum 10 minutes
+    uint256 public maxHalfLifeDuration = 86400; // Maximum 24 hours
+    uint256 public inactivityResetPeriod = 30 days;
+    
+    // Treasury address
+    address public treasuryAddress;
+    
+    // Data structures
     struct TransferMetadata {
         uint256 commitWindowEnd;
         uint256 halfLifeDuration;
         address originator;
         uint256 transferCount;
         bytes32 reversalHash;
+        uint256 feeAmount;
+        bool isReversed;
     }
-&nbsp;
-    mapping(address =&gt; TransferMetadata) public transferData;
-&nbsp;
-    uint256 public halfLifeDuration = 3600;
-&nbsp;
-<span class="fstat-no" title="function not covered" >    constructor(address initialOwner) ERC20("T3 Stablecoin", "T3") Ownable(initialOwner) {</span>
-<span class="cstat-no" title="statement not covered" >        _mint(initialOwner, 1000000 * 10 ** decimals())</span>;
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    function transfer(address recipient, uint256 amount) public override returns (bool) {</span>
-<span class="cstat-no" title="statement not covered" >        _transfer(_msgSender(), recipient, amount)</span>;
-        transferData[recipient] = TransferMetadata({
-            commitWindowEnd: block.timestamp + halfLifeDuration,
-            halfLifeDuration: halfLifeDuration,
-            originator: _msgSender(),
-            transferCount: transferData[recipient].transferCount + 1,
-            reversalHash: keccak256(abi.encodePacked(_msgSender(), recipient, amount))
-        });
-<span class="cstat-no" title="statement not covered" >        return true;</span>
-    }
-&nbsp;
-<span class="fstat-no" title="function not covered" >    function reverseTransfer(address from, address to, uint256 amount) external {</span>
-<span class="cstat-no" title="statement not covered" >        TransferMetadata memory meta = transferData[from];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        require(msg.sender == from || msg.sender == to, "Only sender or receiver can reverse")</span>;
-<span class="cstat-no" title="statement not covered" >        require(block.timestamp &lt; meta.commitWindowEnd, "HalfLife expired")</span>;
-<span class="cstat-no" title="statement not covered" >        require(to == meta.originator, "Reversal must go back to originator")</span>;
-<span class="cstat-no" title="statement not covered" >        require(balanceOf(from) &gt;= amount, "Insufficient balance to reverse")</span>;
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        _transfer(from, to, amount)</span>;
-&nbsp;
-        // Prevent reversal of reversal (no metadata created)
-        delete transferData[from];
-    }
-&nbsp;
+    
     struct RollingAverage {
         uint256 totalAmount;
         uint256 count;
         uint256 lastUpdated;
     }
-&nbsp;
+    
+    struct WalletRiskProfile {
+        uint256 reversalCount;
+        uint256 lastReversal;
+        uint256 creationTime;
+        uint256 abnormalTxCount;
+    }
+    
+    struct IncentiveCredits {
+        uint256 amount;
+        uint256 lastUpdated;
+    }
+    
+    // Mappings
+    mapping(address =&gt; TransferMetadata) public transferData;
+    mapping(address =&gt; RollingAverage) public rollingAverages;
     mapping(address =&gt; mapping(address =&gt; uint256)) public transactionCountBetween;
-    mapping(address =&gt; mapping(address =&gt; RollingAverage)) public rollingAvg;
+    mapping(address =&gt; WalletRiskProfile) public walletRiskProfiles;
+    mapping(address =&gt; IncentiveCredits) public incentiveCredits;
+    
+    // Events
+    event TransferWithFee(address indexed from, address indexed to, uint256 amount, uint256 fee);
+    event TransferReversed(address indexed from, address indexed to, uint256 amount);
+    event HalfLifeExpired(address indexed wallet, uint256 timestamp);
+    event LoyaltyRefundProcessed(address indexed wallet, uint256 amount);
+    event RiskFactorUpdated(address indexed wallet, uint256 newRiskFactor);
+    
+    /**
+     * @dev Constructor
+     * @param initialOwner The address that will receive the initial token supply
+     * @param _treasuryAddress The address that will receive treasury fees
+     */
+    constructor(address initialOwner, address _treasuryAddress) ERC20("T3 Stablecoin", "T3") Ownable(initialOwner) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_treasuryAddress != address(0), "Treasury address cannot be zero");
+        treasuryAddress = _treasuryAddress;
+        
+        // Mint initial supply to owner
+        _mint(initialOwner, 1000000 * 10**decimals());
+        
+        // Initialize owner's wallet risk profile
+        walletRiskProfiles[initialOwner].creationTime = block.timestamp;
+    }
+    
+    /**
+     * @dev Override transfer function to include fee calculation and HalfLife mechanism
+     * @param recipient The recipient address
+     * @param amount The amount to transfer
+     * @return bool Success indicator
+     */
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(recipient != address(0), "Transfer to zero address");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(amount &gt; 0, "Transfer amount must be greater than zero");
+        
+        // Check if sender is in HalfLife period and not the originator
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (transferData[_msgSender()].commitWindowEnd &gt; block.timestamp &amp;&amp; 
+            transferData[_msgSender()].originator != recipient) {
+<span class="cstat-no" title="statement not covered" >            revert("Cannot transfer during HalfLife period except back to originator")</span>;
+        }
+        
+        // Calculate fee using tiered logarithmic structure
+        uint256 feeAmount = calculateTieredFee(amount);
+        
+        // Apply risk adjustments
+        feeAmount = applyRiskAdjustments(feeAmount, _msgSender(), recipient);
+        
+        // Apply credits to reduce fee
+        feeAmount = applyCredits(_msgSender(), feeAmount);
+        
+        // Ensure fee doesn't exceed maximum percentage
+        uint256 maxFeeAmount = (amount * MAX_FEE_PERCENT) / BASIS_POINTS;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (feeAmount &gt; maxFeeAmount) {
+            feeAmount = maxFeeAmount;
+        }
+        
+        // Ensure fee meets minimum
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (feeAmount &lt; MIN_FEE &amp;&amp; amount &gt; MIN_FEE) {
+            feeAmount = MIN_FEE;
+        }
+        
+        // Transfer tokens (amount minus fee)
+        uint256 netAmount = amount - feeAmount;
+        _transfer(_msgSender(), recipient, netAmount);
+        
+        // Process fee distribution if fee exists
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (feeAmount &gt; 0) {
+            processFee(_msgSender(), recipient, amount, feeAmount);
+        }
+        
+        // Update transaction count between sender and recipient
+        transactionCountBetween[_msgSender()][recipient]++;
+        
+        // Calculate adaptive HalfLife duration
+        uint256 adaptiveHalfLife = calculateAdaptiveHalfLife(_msgSender(), recipient, amount);
+        
+        // Set transfer metadata
+        transferData[recipient] = TransferMetadata({
+            commitWindowEnd: block.timestamp + adaptiveHalfLife,
+            halfLifeDuration: adaptiveHalfLife,
+            originator: _msgSender(),
+            transferCount: transferData[recipient].transferCount + 1,
+            reversalHash: keccak256(abi.encodePacked(_msgSender(), recipient, amount)),
+            feeAmount: feeAmount,
+            isReversed: false
+        });
+        
+        // Update rolling average for recipient
+        updateRollingAverage(recipient, amount);
+        
+        emit TransferWithFee(_msgSender(), recipient, netAmount, feeAmount);
+        return true;
+    }
+    
 &nbsp;
-<span class="fstat-no" title="function not covered" >    function transferWithHalfLife(address to, uint256 amount, uint256 requestedHalfLife) public returns (bool) {</span>
-        // Calculate decay-based minimum
-<span class="cstat-no" title="statement not covered" >        uint256 txCount = transactionCountBetween[msg.sender][to];</span>
-<span class="cstat-no" title="statement not covered" >        uint256 decayMin = 43200 &gt;&gt; txCount;</span>
+/*
+     * @dev Calculate fee using tiered logarithmic structure.
+     * NOTE: Changed from pure to view to access decimals().
+     * @param amount The transaction amount (in wei)
+     * @return The calculated fee (in wei)
+     * updated to use decimals() for token precision and pull from blockchain
+*/
+    function calculateTieredFee(uint256 amount) public view returns (uint256) { // Changed to 'view'
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (amount == 0) <span class="cstat-no" title="statement not covered" >return 0;</span>
 &nbsp;
-        // Load rolling average
-<span class="cstat-no" title="statement not covered" >        RollingAverage storage avg = rollingAvg[msg.sender][to];</span>
-<span class="cstat-no" title="statement not covered" >        uint256 average = avg.count &gt; 0 ? avg.totalAmount / avg.count : 0;</span>
+        uint256 _decimals = decimals(); // Get token decimals
 &nbsp;
-        // Reset if 30 days passed
-<span class="cstat-no" title="statement not covered" >        if (block.timestamp &gt; avg.lastUpdated + 30 days) {</span>
+        uint256 remainingAmount = amount;
+        uint256 totalFee = 0;
+&nbsp;
+        // Initialize tier ceiling based on 1 full token unit
+        uint256 tierCeiling = 1 * (10**_decimals); // e.g., 1 * 10**18
+&nbsp;
+        uint256 tierFloor = 0;
+        uint256 currentFeePercent = BASE_FEE_PERCENT; // 10,000,000 BP (1000%)
+&nbsp;
+        while (remainingAmount &gt; 0) {
+            uint256 amountInTier;
+            uint256 tierSize = tierCeiling - tierFloor;
+&nbsp;
+            // Prevent potential underflow if tierCeiling somehow became &lt; tierFloor (shouldn't happen here)
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (tierCeiling &lt; tierFloor) break; // Safety check
+&nbsp;
+            if (remainingAmount &gt; tierSize) {
+                amountInTier = tierSize;
+                remainingAmount -= amountInTier;
+            } else {
+                amountInTier = remainingAmount;
+                remainingAmount = 0;
+            }
+&nbsp;
+            uint256 tierFee = (amountInTier * currentFeePercent) / BASIS_POINTS;
+            totalFee += tierFee;
+&nbsp;
+            tierFloor = tierCeiling;
+             // Check for potential overflow before multiplying ceiling
+             // 10 * 10**18 fits easily, but after many tiers (e.g., 60+) it could overflow uint256
+             uint256 nextTierCeiling = tierCeiling * TIER_MULTIPLIER;
+             <span class="missing-if-branch" title="if path not taken" >I</span>if (nextTierCeiling / TIER_MULTIPLIER != tierCeiling) {
+                 // Overflow occurred, handle appropriately (e.g., break or apply last fee % to remainder)
+                 // Apply last known fee % to the rest? Or just stop? Let's apply and stop.
+<span class="cstat-no" title="statement not covered" >                 if (remainingAmount &gt; 0) {</span>
+                    tierFee = (remainingAmount * currentFeePercent) / BASIS_POINTS;
+                    totalFee += tierFee;
+                    remainingAmount = 0;
+                 }
+                 break; // Exit loop as we can't calculate next ceiling
+             }
+             tierCeiling = nextTierCeiling;
+&nbsp;
+            // Decrease fee percentage for the next tier
+            currentFeePercent = currentFeePercent / TIER_MULTIPLIER;
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (currentFeePercent == 0) {
+                 // If fee % is 0, apply 0 fee to the rest and finish.
+                 // This prevents infinite loops if remainingAmount &gt; 0 but fee is 0.
+                 // Although the break condition below already handles this.
+                 remainingAmount = 0; // Ensure loop terminates
+                 break;
+             }
+        }
+        // Apply fee percentage 0 to any remaining amount? No, the loop handles it.
+&nbsp;
+        return totalFee;
+    }
+    
+    /**
+     * @dev Apply risk adjustments to the base fee
+     * @param baseFee The base fee calculated from the tiered structure
+     * @param sender The sender address
+     * @param recipient The recipient address
+     * @return The risk-adjusted fee
+     */
+    function applyRiskAdjustments(uint256 baseFee, address sender, address recipient) public view returns (uint256) {
+        uint256 senderRiskFactor = calculateRiskFactor(sender);
+        uint256 recipientRiskFactor = calculateRiskFactor(recipient);
+        
+        // Use the higher risk factor
+        uint256 riskFactor = senderRiskFactor &gt; recipientRiskFactor ? senderRiskFactor : recipientRiskFactor;
+        
+        // Apply risk factor (as a percentage)
+        return (baseFee * riskFactor) / BASIS_POINTS;
+    }
+    
+    /**
+     * @dev Calculate risk factor for a wallet
+     * @param wallet The wallet address
+     * @return The risk factor (in basis points, where 10000 = 100%)
+     */
+    function calculateRiskFactor(address wallet) public view returns (uint256) {
+        WalletRiskProfile storage profile = walletRiskProfiles[wallet];
+        
+        // Base risk factor starts at 100% (10000 basis points)
+        uint256 riskFactor = BASIS_POINTS;
+        
+        // New wallet penalty (less than 7 days old)
+        if (profile.creationTime &gt; 0 &amp;&amp; block.timestamp - profile.creationTime &lt; 7 days) {
+            riskFactor += 5000; // +50%
+        }
+        
+        // Recent reversal penalty
+        if (profile.lastReversal &gt; 0 &amp;&amp; block.timestamp - profile.lastReversal &lt; 30 days) {
+            riskFactor += 10000; // +100%
+        }
+        
+        // Reversal count penalty
+        riskFactor += profile.reversalCount * 1000; // +10% per reversal
+        
+        // Abnormal transaction penalty
+        riskFactor += profile.abnormalTxCount * 500; // +5% per abnormal transaction
+        
+        return riskFactor;
+    }
+    
+    /**
+     * @dev Apply available credits to reduce fee
+     * @param wallet The wallet address
+     * @param fee The fee amount
+     * @return The reduced fee amount
+     */
+    function applyCredits(address wallet, uint256 fee) public returns (uint256) {
+        IncentiveCredits storage credits = incentiveCredits[wallet];
+        
+        if (credits.amount == 0) {
+            return fee;
+        }
+        
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (credits.amount &gt;= fee) {
+            // Full fee coverage
+            credits.amount -= fee;
+            credits.lastUpdated = block.timestamp;
+<span class="cstat-no" title="statement not covered" >            return 0;</span>
+        } else {
+            // Partial fee coverage
+            uint256 remainingFee = fee - credits.amount;
+            credits.amount = 0;
+            credits.lastUpdated = block.timestamp;
+            return remainingFee;
+        }
+    }
+    
+    /**
+     * @dev Process fee distribution between treasury and incentive pools
+     * @param sender The sender address
+     * @param recipient The recipient address
+     * @param amount The original transfer amount
+     * @param feeAmount The fee amount
+     */
+    function processFee(address sender, address recipient, uint256 amount, uint256 feeAmount) internal {
+        // 50% to treasury
+        uint256 treasuryShare = feeAmount / 2;
+        _mint(treasuryAddress, treasuryShare);
+        
+        // 25% to sender's incentive pool
+        uint256 senderShare = feeAmount / 4;
+        incentiveCredits[sender].amount += senderShare;
+        incentiveCredits[sender].lastUpdated = block.timestamp;
+        
+        // 25% to recipient's incentive pool
+        uint256 recipientShare = feeAmount - treasuryShare - senderShare; // Account for rounding
+        incentiveCredits[recipient].amount += recipientShare;
+        incentiveCredits[recipient].lastUpdated = block.timestamp;
+    }
+    
+    /**
+     * @dev Calculate adaptive HalfLife duration based on transaction patterns
+     * @param sender The sender address
+     * @param recipient The recipient address
+     * @param amount The transfer amount
+     * @return The adaptive HalfLife duration
+     */
+    function calculateAdaptiveHalfLife(address sender, address recipient, uint256 amount) internal view returns (uint256) {
+        uint256 duration = halfLifeDuration;
+        
+        // Reduce HalfLife for frequent transactions between the same parties
+        uint256 txCount = transactionCountBetween[sender][recipient];
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (txCount &gt; 0) {
+            // Reduce by 10% for each previous transaction, up to 90% reduction
+            uint256 reduction = (txCount * 10 &gt; 90) ? <span class="missing-if-branch" title="if path not taken" >I</span>90 : txCount * 10;
+            duration = duration * (100 - reduction) / 100;
+        }
+        
+        // Increase HalfLife for abnormally large transactions
+        RollingAverage storage avg = rollingAverages[sender];
+        if (avg.count &gt; 0) {
+            uint256 avgAmount = avg.totalAmount / avg.count;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (amount &gt; avgAmount * 10) {
+                // Double the HalfLife for transactions 10x larger than average
+                duration = duration * 2;
+            }
+        }
+        
+        // Ensure within min/max bounds
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (duration &lt; minHalfLifeDuration) {
+            duration = minHalfLifeDuration;
+        } else <span class="missing-if-branch" title="if path not taken" >I</span>if (duration &gt; maxHalfLifeDuration) {
+            duration = maxHalfLifeDuration;
+        }
+        
+        return duration;
+    }
+    
+    /**
+     * @dev Update rolling average for a wallet
+     * @param wallet The wallet address
+     * @param amount The transaction amount
+     */
+    function updateRollingAverage(address wallet, uint256 amount) internal {
+        RollingAverage storage avg = rollingAverages[wallet];
+        
+        // Reset if inactive for too long
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (avg.lastUpdated &gt; 0 &amp;&amp; block.timestamp - avg.lastUpdated &gt; inactivityResetPeriod) {
             avg.totalAmount = 0;
             avg.count = 0;
         }
-&nbsp;
-        // Update rolling average
+        
+        // Update the average
         avg.totalAmount += amount;
-        avg.count += 1;
+        avg.count++;
         avg.lastUpdated = block.timestamp;
-&nbsp;
-        // Check for high-value transaction boost
-<span class="cstat-no" title="statement not covered" >        uint256 highValueMin = (average &gt; 0 &amp;&amp; amount &gt; (average * 150) / 100) ? 3600 : 0;</span>
-&nbsp;
-        // Determine applied HalfLife
-<span class="cstat-no" title="statement not covered" >        uint256 finalMin = decayMin &gt; highValueMin ? decayMin : highValueMin;</span>
-<span class="cstat-no" title="statement not covered" >        uint256 appliedHalfLife = requestedHalfLife &gt; finalMin ? requestedHalfLife : finalMin;</span>
-&nbsp;
-        // Execute transfer
-<span class="cstat-no" title="statement not covered" >        _transfer(msg.sender, to, amount)</span>;
-&nbsp;
-        // Set transfer metadata
-        transferData[to] = TransferMetadata({
-            commitWindowEnd: block.timestamp + appliedHalfLife,
-            halfLifeDuration: appliedHalfLife,
-            originator: msg.sender,
-            transferCount: transferData[to].transferCount + 1,
-            reversalHash: keccak256(abi.encodePacked(msg.sender, to, amount, block.timestamp))
-        });
-&nbsp;
-        transactionCountBetween[msg.sender][to]++;
-<span class="cstat-no" title="statement not covered" >        return true;</span>
     }
-&nbsp;
-}</pre></td></tr>
+    
+    /**
+     * @dev Reverse a transfer within the HalfLife period
+     * @param from The current holder address
+     * @param to The original sender address
+     * @param amount The amount to reverse
+     */
+    function reverseTransfer(address from, address to, uint256 amount) external {
+        TransferMetadata memory meta = transferData[from];
+        
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(msg.sender == from || <span class="branch-1 cbranch-no" title="branch not covered" >msg.sender == to</span>, "Only sender or receiver can reverse");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(block.timestamp &lt; meta.commitWindowEnd, "HalfLife expired");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to == meta.originator, "Reversal must go back to originator");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceOf(from) &gt;= amount, "Insufficient balance to reverse");
+        
+        // Mark the transfer as reversed
+        transferData[from].isReversed = true;
+        
+        // Update wallet risk profiles
+        updateWalletRiskProfile(from, true, false);
+        updateWalletRiskProfile(to, true, false);
+        
+        // Transfer tokens back
+        _transfer(from, to, amount);
+        
+        // Prevent reversal of reversal
+        delete transferData[from];
+        
+        emit TransferReversed(from, to, amount);
+    }
+    
+    /**
+     * @dev Check if HalfLife period has expired and process loyalty refunds
+     * @param wallet The wallet address to check
+     */
+<span class="fstat-no" title="function not covered" >    function checkHalfLifeExpiry(address wallet) external {</span>
+<span class="cstat-no" title="statement not covered" >        TransferMetadata storage meta = transferData[wallet];</span>
+        
+<span class="cstat-no" title="statement not covered" >        require(meta.commitWindowEnd &gt; 0, "No active transfer data")</span>;
+<span class="cstat-no" title="statement not covered" >        require(block.timestamp &gt;= meta.commitWindowEnd, "HalfLife not expired yet")</span>;
+<span class="cstat-no" title="statement not covered" >        require(!meta.isReversed, "Transfer was reversed")</span>;
+        
+        // Process loyalty refunds if not already processed
+<span class="cstat-no" title="statement not covered" >        if (meta.feeAmount &gt; 0) {</span>
+            // 25% refund to both parties
+<span class="cstat-no" title="statement not covered" >            uint256 senderRefund = meta.feeAmount / 8;</span> // 25% of sender's 50% share
+<span class="cstat-no" title="statement not covered" >            uint256 recipientRefund = meta.feeAmount / 8;</span> // 25% of recipient's 50% share
+            
+            // Credit the refunds
+            incentiveCredits[meta.originator].amount += senderRefund;
+            incentiveCredits[meta.originator].lastUpdated = block.timestamp;
+            
+            incentiveCredits[wallet].amount += recipientRefund;
+            incentiveCredits[wallet].lastUpdated = block.timestamp;
+            
+<span class="cstat-no" title="statement not covered" >            emit LoyaltyRefundProcessed(meta.originator, senderRefund);</span>
+<span class="cstat-no" title="statement not covered" >            emit LoyaltyRefundProcessed(wallet, recipientRefund);</span>
+        }
+        
+        // Update wallet risk profiles positively
+<span class="cstat-no" title="statement not covered" >        updateWalletRiskProfile(wallet, false, true)</span>;
+<span class="cstat-no" title="statement not covered" >        updateWalletRiskProfile(meta.originator, false, true)</span>;
+        
+        // Clear the metadata
+        delete transferData[wallet];
+        
+<span class="cstat-no" title="statement not covered" >        emit HalfLifeExpired(wallet, block.timestamp);</span>
+    }
+    
+    /**
+     * @dev Update wallet risk profile
+     * @param wallet The wallet address
+     * @param isReversal Whether this is a reversal event
+     * @param isSuccessful Whether this is a successful transaction
+     */
+    function updateWalletRiskProfile(address wallet, bool isReversal, bool isSuccessful) internal {
+        WalletRiskProfile storage profile = walletRiskProfiles[wallet];
+        
+        // Initialize creation time if not set
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (profile.creationTime == 0) {
+            profile.creationTime = block.timestamp;
+        }
+        
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (isReversal) {
+            profile.reversalCount++;
+            profile.lastReversal = block.timestamp;
+        }
+        
+        // Successful transactions don't need special handling currently
+        
+        emit RiskFactorUpdated(wallet, calculateRiskFactor(wallet));
+    }
+    
+    /**
+     * @dev Flag a transaction as abnormal
+     * @param wallet The wallet address
+     */
+<span class="fstat-no" title="function not covered" >    function flagAbnormalTransaction(address wallet) external onlyOwner {</span>
+        walletRiskProfiles[wallet].abnormalTxCount++;
+<span class="cstat-no" title="statement not covered" >        emit RiskFactorUpdated(wallet, calculateRiskFactor(wallet));</span>
+    }
+    
+    /**
+     * @dev Get available credits for a wallet
+     * @param wallet The wallet address
+     * @return The available credit amount
+     */
+    function getAvailableCredits(address wallet) external view returns (uint256) {
+        return incentiveCredits[wallet].amount;
+    }
+    
+    /**
+     * @dev Set the treasury address
+     * @param _treasuryAddress The new treasury address
+     */
+<span class="fstat-no" title="function not covered" >    function setTreasuryAddress(address _treasuryAddress) external onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_treasuryAddress != address(0), "Treasury address cannot be zero")</span>;
+        treasuryAddress = _treasuryAddress;
+    }
+    
+    /**
+     * @dev Set the default HalfLife duration
+     * @param _halfLifeDuration The new HalfLife duration in seconds
+     */
+<span class="fstat-no" title="function not covered" >    function setHalfLifeDuration(uint256 _halfLifeDuration) external onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_halfLifeDuration &gt;= minHalfLifeDuration, "Below minimum HalfLife duration")</span>;
+<span class="cstat-no" title="statement not covered" >        require(_halfLifeDuration &lt;= maxHalfLifeDuration, "Above maximum HalfLife duration")</span>;
+        halfLifeDuration = _halfLifeDuration;
+    }
+    
+    /**
+     * @dev Set the minimum HalfLife duration
+     * @param _minHalfLifeDuration The new minimum HalfLife duration in seconds
+     */
+<span class="fstat-no" title="function not covered" >    function setMinHalfLifeDuration(uint256 _minHalfLifeDuration) external onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_minHalfLifeDuration &gt; 0, "Minimum HalfLife must be positive")</span>;
+<span class="cstat-no" title="statement not covered" >        require(_minHalfLifeDuration &lt;= halfLifeDuration, "Minimum cannot exceed default")</span>;
+        minHalfLifeDuration = _minHalfLifeDuration;
+    }
+    
+    /**
+     * @dev Set the maximum HalfLife duration
+     * @param _maxHalfLifeDuration The new maximum HalfLife duration in seconds
+     */
+<span class="fstat-no" title="function not covered" >    function setMaxHalfLifeDuration(uint256 _maxHalfLifeDuration) external onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_maxHalfLifeDuration &gt;= halfLifeDuration, "Maximum cannot be below default")</span>;
+        maxHalfLifeDuration = _maxHalfLifeDuration;
+    }
+    
+    /**
+     * @dev Set the inactivity reset period
+     * @param _inactivityResetPeriod The new inactivity reset period in seconds
+     */
+<span class="fstat-no" title="function not covered" >    function setInactivityResetPeriod(uint256 _inactivityResetPeriod) external onlyOwner {</span>
+<span class="cstat-no" title="statement not covered" >        require(_inactivityResetPeriod &gt; 0, "Inactivity period must be positive")</span>;
+        inactivityResetPeriod = _inactivityResetPeriod;
+    }
+}
+&nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 06 2025 15:54:52 GMT-0400 (Eastern Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Apr 08 2025 10:37:21 GMT-0400 (Eastern Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>
