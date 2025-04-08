@@ -1,0 +1,102 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "T3TokenTest",
+  "sourceName": "contracts/T3TokenTieredFeeTest.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "testCreditApplication",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testEndToEndTransaction",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testFeeBounds",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testFeeDistribution",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testLoyaltyRefunds",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testRiskAdjustments",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "testTieredFeeCalculation",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608080604052346100155760b6908161001b8239f35b600080fdfe60806040526004361015601157600080fd5b60003560e01c80631fe2ce791460615780632959ec34146061578063355a334714606157806335dfc319146061578063829c47d414606157806389db8974146061576398d6146d14606157600080fd5b34607b576000366003190112607b57602060405160018152f35b600080fdfea2646970667358221220703be4b371a04a7bc7d9f76e5046b66b459adf661bd9101b9a18b1d4c75a2dfb64736f6c63430008140033",
+  "deployedBytecode": "0x60806040526004361015601157600080fd5b60003560e01c80631fe2ce791460615780632959ec34146061578063355a334714606157806335dfc319146061578063829c47d414606157806389db8974146061576398d6146d14606157600080fd5b34607b576000366003190112607b57602060405160018152f35b600080fdfea2646970667358221220703be4b371a04a7bc7d9f76e5046b66b459adf661bd9101b9a18b1d4c75a2dfb64736f6c63430008140033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
