@@ -84,7 +84,6 @@ contract T3Token is ERC20, Ownable {
 
         // Initialize owner's wallet risk profile
         walletRiskProfiles[initialOwner].creationTime = block.timestamp;
-        // console.log("Constructor: Initialized profile creationTime for owner %s at %s", initialOwner, block.timestamp);
     }
 
     /**
@@ -98,12 +97,9 @@ contract T3Token is ERC20, Ownable {
         require(amount > 0, "Transfer amount must be greater than zero");
 
         address sender = _msgSender();
-        // console.log("--- Transfer Start ---");
-        // console.log("Sender:", sender);
-        // console.log("Recipient:", recipient);
-        // console.log("Amount:", amount);
 
         // *** ADDED: Initialize profiles if needed BEFORE calculating risk ***
+        // This ensures creationTime is set on first interaction, affecting risk calc immediately.
         updateWalletRiskProfile(sender, false, false);
         updateWalletRiskProfile(recipient, false, false);
         // ********************************************************************
@@ -117,56 +113,39 @@ contract T3Token is ERC20, Ownable {
         // --- Fee Calculation Steps ---
         // 1. Calculate base fee
         uint256 feeBeforeAdjustments = calculateTieredFee(amount);
-        // console.log("Fee Step 1 (Base Tiered Fee):", feeBeforeAdjustments);
 
-        // 2. Apply risk adjustments
+        // 2. Apply risk adjustments (now uses potentially initialized profiles)
         uint256 feeAfterRisk = applyRiskAdjustments(feeBeforeAdjustments, sender, recipient);
-        // console.log("Fee Step 2 (After Risk Adjust):", feeAfterRisk);
 
         // 3. Apply credits to reduce fee
         uint256 feeAfterCredits = applyCredits(sender, feeAfterRisk);
-        // console.log("Fee Step 3 (After Credits):", feeAfterCredits); // This is the fee remaining to be paid
 
         // 4. Apply final bounds (Max/Min)
-        uint256 finalFee = feeAfterCredits; // Start with fee remaining after credits
-        // console.log("Fee Step 4a (Before Bounds Check):", finalFee);
-
+        uint256 finalFee = feeAfterCredits;
         uint256 maxFeeAmount = (amount * MAX_FEE_PERCENT) / BASIS_POINTS;
         if (finalFee > maxFeeAmount) {
-            // console.log("Applying Max Fee Cap. Old Fee:", finalFee, "Max Allowed:", maxFeeAmount);
             finalFee = maxFeeAmount;
         }
-        // console.log("Fee Step 4b (After Max Bound Check):", finalFee);
-
         uint256 minFeeCheck = MIN_FEE;
         if (finalFee < minFeeCheck && amount > minFeeCheck) {
-             // console.log("Applying Min Fee Floor. Old Fee:", finalFee, "Min Required:", minFeeCheck);
              finalFee = minFeeCheck;
         }
-        // console.log("Fee Step 4c (After Min Bound Check):", finalFee);
 
         // 5. Ensure fee doesn't exceed amount (Overflow/Underflow Protection)
         if (finalFee > amount) {
-            // console.log("Applying Amount Cap. Old Fee:", finalFee, "Amount:", amount);
             finalFee = amount;
         }
-        // console.log("Fee Step 5 (Final Fee to be Paid):", finalFee);
         // --- End Fee Calculation Steps ---
 
         // Calculate net amount for transfer
         uint256 netAmount = amount - finalFee;
-        // console.log("Net Amount to Transfer:", netAmount);
 
         // Perform the transfer
         _transfer(sender, recipient, netAmount);
-        // console.log("Transfer executed.");
 
         // Process fee distribution if a non-zero fee was ultimately paid
         if (finalFee > 0) {
-            // Pass the final calculated fee to processFee
             processFee(sender, recipient, amount, finalFee);
-        } else {
-            // console.log("Skipping processFee as finalFee is 0.");
         }
 
         // Update transaction count between sender and recipient
@@ -185,26 +164,21 @@ contract T3Token is ERC20, Ownable {
             feeAmount: finalFee, // Store the final fee paid
             isReversed: false
         });
-        // console.log("Transfer metadata set for recipient.");
 
         // Update rolling average for recipient
         updateRollingAverage(recipient, amount);
 
         // Emit event with net amount transferred and final fee paid
         emit TransferWithFee(sender, recipient, netAmount, finalFee);
-        // console.log("--- Transfer End ---");
         return true;
     }
 
 
     /**
      * @dev Calculate fee using tiered logarithmic structure.
-     * NOTE: Changed from pure to view to access decimals().
-     * @param amount The transaction amount (in wei)
-     * @return The calculated fee (in wei)
      */
     function calculateTieredFee(uint256 amount) public view returns (uint256) {
-        // ... (function unchanged - no logging added here previously) ...
+        // ... (function unchanged - no logging) ...
         if (amount == 0) return 0;
         uint256 _decimals = decimals();
         uint256 remainingAmount = amount;
@@ -242,188 +216,65 @@ contract T3Token is ERC20, Ownable {
 
     /**
      * @dev Apply risk adjustments to the base fee
-     * @param baseFee The base fee calculated from the tiered structure
-     * @param sender The sender address
-     * @param recipient The recipient address
-     * @return The risk-adjusted fee
      */
     function applyRiskAdjustments(uint256 baseFee, address sender, address recipient) public view returns (uint256) {
-        // *** Logging Commented Out ***
-        // console.log("--- applyRiskAdjustments Start ---");
-        // console.log("Input Base Fee:", baseFee);
-        // console.log("Sender:", sender);
-        // console.log("Recipient:", recipient);
-
+        // ... (function unchanged - no logging) ...
         uint256 senderRiskFactor = calculateRiskFactor(sender);
-        // console.log("Sender Risk Factor:", senderRiskFactor);
-
         uint256 recipientRiskFactor = calculateRiskFactor(recipient);
-        // console.log("Recipient Risk Factor:", recipientRiskFactor);
-
-        // Use the higher risk factor
         uint256 riskFactor = senderRiskFactor > recipientRiskFactor ? senderRiskFactor : recipientRiskFactor;
-        // console.log("Chosen Risk Factor:", riskFactor);
-
-        // Apply risk factor (as a percentage)
-        uint256 adjustedFee = (baseFee * riskFactor) / BASIS_POINTS;
-        // console.log("Returned Adjusted Fee:", adjustedFee);
-        // console.log("--- applyRiskAdjustments End ---");
-        return adjustedFee;
+        return (baseFee * riskFactor) / BASIS_POINTS;
     }
 
     /**
      * @dev Calculate risk factor for a wallet
-     * @param wallet The wallet address
-     * @return The risk factor (in basis points, where 10000 = 100%)
      */
     function calculateRiskFactor(address wallet) public view returns (uint256) {
-        // *** Logging Commented Out ***
-        // console.log("--- calculateRiskFactor Start ---");
-        // console.log("Wallet:", wallet);
-
+        // ... (function unchanged - no logging) ...
         WalletRiskProfile storage profile = walletRiskProfiles[wallet];
-        // console.log("Profile creationTime (read):", profile.creationTime);
-        // console.log("Profile lastReversal (read):", profile.lastReversal);
-        // console.log("Profile reversalCount (read):", profile.reversalCount);
-        // console.log("Profile abnormalTxCount (read):", profile.abnormalTxCount);
-        // console.log("Current Timestamp:", block.timestamp);
-
-
-        // Base risk factor starts at 100% (10000 basis points)
         uint256 riskFactor = BASIS_POINTS;
-        // console.log("Initial Risk Factor:", riskFactor);
-
-
-        // New wallet penalty (less than 7 days old)
-        if (profile.creationTime > 0 && block.timestamp - profile.creationTime < 7 days) {
-            riskFactor += 5000; // +50%
-            // console.log("Applied New Wallet Penalty (+5000). Risk Factor:", riskFactor);
-        }
-
-        // Recent reversal penalty
-        if (profile.lastReversal > 0 && block.timestamp - profile.lastReversal < 30 days) {
-            riskFactor += 10000; // +100%
-             // console.log("Applied Recent Reversal Penalty (+10000). Risk Factor:", riskFactor);
-        }
-
-        // Reversal count penalty
-        uint256 reversalPenalty = profile.reversalCount * 1000; // +10% per reversal
-        if (reversalPenalty > 0) {
-            riskFactor += reversalPenalty;
-            // console.log("Applied Reversal Count Penalty:", reversalPenalty);
-            // console.log("Risk Factor after Reversal Count:", riskFactor);
-        }
-
-        // Abnormal transaction penalty
-        uint256 abnormalPenalty = profile.abnormalTxCount * 500; // +5% per abnormal transaction
-        if (abnormalPenalty > 0) {
-            riskFactor += abnormalPenalty;
-             // console.log("Applied Abnormal Tx Penalty:", abnormalPenalty);
-             // console.log("Risk Factor after Abnormal Tx:", riskFactor);
-        }
-
-        // console.log("Final Calculated Risk Factor:", riskFactor);
-        // console.log("--- calculateRiskFactor End ---");
+        if (profile.creationTime > 0 && block.timestamp - profile.creationTime < 7 days) { riskFactor += 5000; }
+        if (profile.lastReversal > 0 && block.timestamp - profile.lastReversal < 30 days) { riskFactor += 10000; }
+        riskFactor += profile.reversalCount * 1000;
+        riskFactor += profile.abnormalTxCount * 500;
         return riskFactor;
     }
 
     /**
      * @dev Apply available credits to reduce fee
-     * @param wallet The wallet address
-     * @param fee The fee amount calculated *after* risk adjustments
-     * @return The reduced fee amount (fee remaining after applying credits)
      */
     function applyCredits(address wallet, uint256 fee) public returns (uint256) { // Consider making internal
+        // ... (function unchanged - no logging) ...
         IncentiveCredits storage credits = incentiveCredits[wallet];
-        // *** Logging Commented Out ***
-        // console.log("--- applyCredits Start ---");
-        // console.log("Wallet:", wallet);
-        // console.log("Input Fee:", fee);
-        // console.log("Initial Credits:", credits.amount);
-
-        if (credits.amount == 0) {
-            // console.log("applyCredits: No credits, returning fee");
-            // console.log("Fee Returned:", fee);
-            // console.log("--- applyCredits End ---");
-            return fee;
-        }
-
+        if (credits.amount == 0) { return fee; }
         if (credits.amount >= fee) {
-            // Full fee coverage
-            // uint256 initialAmt = credits.amount;
             credits.amount -= fee;
             credits.lastUpdated = block.timestamp;
-            // console.log("applyCredits: Full coverage");
-            // console.log("Credits Before:", initialAmt);
-            // console.log("Fee Deducted:", fee);
-            // console.log("Credits After:", credits.amount);
-            // console.log("Fee Returned: 0");
-            // console.log("--- applyCredits End ---");
-            return 0; // Return 0 fee remaining
+            return 0;
         } else {
-            // Partial fee coverage
-            // uint256 initialAmt = credits.amount;
-            uint256 feeDeducted = credits.amount; // Amount deducted is the initial amount
-            uint256 remainingFee = fee - feeDeducted;
+            uint256 remainingFee = fee - credits.amount;
             credits.amount = 0; // Zero out credits
             credits.lastUpdated = block.timestamp;
-            // console.log("applyCredits: Partial coverage");
-            // console.log("Credits Before:", initialAmt);
-            // console.log("Fee Deducted:", feeDeducted);
-            // console.log("Credits After:", credits.amount);
-            // console.log("Remaining Fee:", remainingFee);
-            // console.log("--- applyCredits End ---");
-            return remainingFee; // Return the fee that still needs to be paid
+            return remainingFee;
         }
     }
 
     /**
      * @dev Process fee distribution between treasury and incentive pools
-     * @param sender The sender address
-     * @param recipient The recipient address
-     * @param feeAmount The final fee amount actually paid (after credits, bounds)
      */
-     // *** CORRECTED DOCSTRING (removed @param amount) ***
     function processFee(address sender, address recipient, uint256 /*amount*/, uint256 feeAmount) internal {
-        // *** Logging Commented Out ***
-        // console.log("--- processFee Start ---");
-        // console.log("Sender:", sender);
-        // console.log("Recipient:", recipient);
-        // console.log("Fee Amount Paid:", feeAmount);
-
-        // 50% to treasury
+        // ... (function unchanged - no logging) ...
         uint256 treasuryShare = feeAmount / 2;
-        if (treasuryShare > 0) {
-             _mint(treasuryAddress, treasuryShare);
-        }
-        // console.log("Treasury Share:", treasuryShare);
-
-        // 25% to sender's incentive pool
+        if (treasuryShare > 0) { _mint(treasuryAddress, treasuryShare); }
         uint256 senderShare = feeAmount / 4;
-        // uint256 senderCreditsBefore = incentiveCredits[sender].amount;
         incentiveCredits[sender].amount += senderShare;
         incentiveCredits[sender].lastUpdated = block.timestamp;
-        // console.log("Sender Share:", senderShare);
-        // console.log("Sender Credits Before:", senderCreditsBefore);
-        // console.log("Sender Credits After:", incentiveCredits[sender].amount);
-
-        // 25% (remainder) to recipient's incentive pool
         uint256 recipientShare = feeAmount - treasuryShare - senderShare; // Corrected logic
-        // uint256 recipientCreditsBefore = incentiveCredits[recipient].amount;
         incentiveCredits[recipient].amount += recipientShare;
         incentiveCredits[recipient].lastUpdated = block.timestamp;
-        // console.log("Recipient Share:", recipientShare);
-        // console.log("Recipient Credits Before:", recipientCreditsBefore);
-        // console.log("Recipient Credits After:", incentiveCredits[recipient].amount);
-        // console.log("--- processFee End ---");
     }
 
     /**
      * @dev Calculate adaptive HalfLife duration based on transaction patterns
-     * @param sender The sender address
-     * @param recipient The recipient address
-     * @param amount The transfer amount
-     * @return The adaptive HalfLife duration
      */
     function calculateAdaptiveHalfLife(address sender, address recipient, uint256 amount) internal view returns (uint256) {
         // ... (function unchanged) ...
@@ -446,9 +297,7 @@ contract T3Token is ERC20, Ownable {
     }
 
     /**
-     * @dev Update rolling average for a wallet (likely the recipient)
-     * @param wallet The wallet address
-     * @param amount The transaction amount received
+     * @dev Update rolling average for a wallet
      */
     function updateRollingAverage(address wallet, uint256 amount) internal {
         // ... (function unchanged) ...
@@ -461,9 +310,6 @@ contract T3Token is ERC20, Ownable {
 
     /**
      * @dev Reverse a transfer within the HalfLife period
-     * @param from The current holder address (who wants to reverse)
-     * @param to The original sender address (where tokens go back to)
-     * @param amount The net amount that was originally received
      */
     function reverseTransfer(address from, address to, uint256 amount) external {
         // ... (function unchanged) ...
@@ -483,7 +329,6 @@ contract T3Token is ERC20, Ownable {
 
     /**
      * @dev Check if HalfLife period has expired and process loyalty refunds
-     * @param wallet The wallet address holding the tokens (original recipient)
      */
     function checkHalfLifeExpiry(address wallet) external {
         // ... (function unchanged) ...
@@ -514,8 +359,7 @@ contract T3Token is ERC20, Ownable {
      * @param wallet The wallet address
      * @param isReversal Whether this update is due to a reversal event
      */
-     // *** CORRECTED DOCSTRING (removed @param isSuccessfulCompletion) ***
-    function updateWalletRiskProfile(address wallet, bool isReversal, bool /*isSuccessfulCompletion*/) internal { // Marked param unused
+    function updateWalletRiskProfile(address wallet, bool isReversal, bool /*isSuccessfulCompletion*/) internal {
         // *** Logging Commented Out ***
         WalletRiskProfile storage profile = walletRiskProfiles[wallet];
         // console.log("--- updateWalletRiskProfile ---");
@@ -531,28 +375,23 @@ contract T3Token is ERC20, Ownable {
             profile.lastReversal = block.timestamp;
              // console.log("Updated reversal info for %s", wallet);
         }
-        // Emit event with the *new* risk factor (calls calculateRiskFactor again)
         emit RiskFactorUpdated(wallet, calculateRiskFactor(wallet));
         // console.log("--- updateWalletRiskProfile End ---");
     }
 
     /**
      * @dev Flag a transaction as abnormal (callable by owner)
-     * @param wallet The wallet address associated with the abnormal transaction
      */
     function flagAbnormalTransaction(address wallet) external onlyOwner {
-        // Call updateWalletRiskProfile first to ensure profile exists/creationTime is set
+        // Call updateWalletRiskProfile first to ensure profile exists
         updateWalletRiskProfile(wallet, false, false);
-        // Now increment the count
         walletRiskProfiles[wallet].abnormalTxCount++;
+        // Event emitted within updateWalletRiskProfile
         // console.log("Flagged abnormal tx for %s", wallet);
-        // Emit event is handled by updateWalletRiskProfile called above
     }
 
     /**
      * @dev Get available credits for a wallet
-     * @param wallet The wallet address
-     * @return The available credit amount
      */
     function getAvailableCredits(address wallet) external view returns (uint256) {
         return incentiveCredits[wallet].amount;
@@ -565,9 +404,3 @@ contract T3Token is ERC20, Ownable {
     function setMaxHalfLifeDuration(uint256 _maxHalfLifeDuration) external onlyOwner { require(_maxHalfLifeDuration >= halfLifeDuration, "Max below default"); maxHalfLifeDuration = _maxHalfLifeDuration; }
     function setInactivityResetPeriod(uint256 _inactivityResetPeriod) external onlyOwner { require(_inactivityResetPeriod > 0, "Period must be positive"); inactivityResetPeriod = _inactivityResetPeriod; }
 }
-
-/*
-```
-I have updated the contract code in the Canvas (`solidity_contract_with_logging`) to include `console.log` statements within the `applyRiskAdjustments` and `calculateRiskFactor` functions.
-Please replace your `T3Token.sol` content with this latest version, run `npx hardhat clean`, `npx hardhat compile`, and execute the credit application tests again (`npx hardhat test --grep "Credit Application"`). The detailed logs from the risk calculation should now help us pinpoint why the `feeAfterRisk` value was incorrectly set to 0.
-*/
