@@ -41,4 +41,5 @@ npx hardhat run scripts/deploy_fees.js --network localhost
 
 ----------------------------
 // step seven - run test suite
-npx hardhat test ./tests/T3Token.test.js
+// old - npx hardhat test ./test/T3Token.test.js
+npx hardhat test ./test/T3TokenCoverage_v2.test.js
